@@ -15,12 +15,12 @@ import joblib
 # ADDING CURRENT FOLDER TO THE PATH OF PACKAGES
 sys.path.append(os.getcwd())
 # Assuming you are using the Transformer architecture
-from tools.diffusion_model_with_angular_velocities_scaled_costs_variable_new_architecture import ConditionalDiffusionModel
+from tools.diffusion_model import ConditionalDiffusionModel
 
 # --- HYPERPARAMETERS ---
 BATCH_SIZE = 512
 LR = 5e-4
-EPOCHS = 60000
+EPOCHS = 600
 TIMESTEPS = 1000
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 NUM_WORKERS = 0 # Set to 0 for stability on Windows/WSL
@@ -32,9 +32,9 @@ D_MODEL = 256
 NHEAD = 8
 NUM_LAYERS = 6
 
-CHECKPOINT_DIR = "checkpoints_no_scaling"
+CHECKPOINT_DIR = "checkpoints"
 # Look for the dataset generated without OCP scaling factors
-DATASET_PATH = "data/dataset_parallel_NO_SCALING.pkl" 
+DATASET_PATH = "data/dataset_X_samples.pkl" 
 
 class VariableLengthDataset(Dataset):
     def __init__(self, data_path, scaler_traj=None, scaler_w=None, random_slice=True, min_len=20):
@@ -258,7 +258,7 @@ def main():
         if (epoch + 1) % 1 == 0:
             print(f"Epoch {epoch+1}/{EPOCHS} | Loss: {avg_loss:.6f} | Time: {epoch_duration:.2f}s")
 
-        if (epoch + 1) % 500 == 0:
+        if (epoch + 1) % 50 == 0:
             torch.save(model.state_dict(), os.path.join(CHECKPOINT_DIR, f"diff_model_transformer_epoch_{epoch+1}.pth"))
 
     torch.save(model.state_dict(), os.path.join(CHECKPOINT_DIR, "diff_model_transformer_final.pth"))
