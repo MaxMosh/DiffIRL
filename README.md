@@ -57,7 +57,7 @@ python scripts/generate_OCP_solutions.py
 
 <p align="center">
   <img src="pictures/trajectories_initial_conditions.png" height="300" />
-  <img src="pictures/trajectories_with_final_condition.png" height="270" />
+  <img src="pictures/trajectories_with_final_condition.png" height="250" />
 </p>
 
 ### 2. Training
