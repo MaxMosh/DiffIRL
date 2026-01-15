@@ -38,8 +38,8 @@ conda create -n DiffIRL python=3.10.17
 conda activate DiffIRL
 mamba install -c conda-forge pinocchio pinocchio-python eigenpy numpy matplotlib
 pip install torch
-# pip install -e <acados_root>/interfaces/acados_template
 ```
+<!-- pip install -e <acados_root>/interfaces/acados_template -->
 
 ## Usage Workflow
 
@@ -55,12 +55,17 @@ python scripts/generate_OCP_solutions.py
 ```
 *Output: `data/dataset_X_samples.pkl`*
 
+<p align="center">
+  <img src="pictures/trajectories_initial_conditions.png" width="45%" />
+  <img src="pictures/trajectories_final_conditions.png" width="45%" />
+</p>
+
 ### 2. Training
 Train the (conditional) diffusion model to predict weights from trajectories.
 ```bash
 python scripts/train.py
 ```
-*Input: `data/dataset_X_samples.pkl`*
+*Input: `data/dataset_X_samples.pkl`* \\
 *Output: Checkpoints `*.pth`, `scaler_w.pkl`, `scaler_traj.pkl` in folder `checkpoints/`*
 
 ### 3. Testing & Visualization
@@ -68,7 +73,7 @@ Test the model on unseen trajectories and visualize the probabilistic weight dis
 ```bash
 python scripts/test.py
 ```
-*Input: Checkpoints `*.pth`, `scaler_w.pkl`, `scaler_traj.pkl` in folder `checkpoints/`*
+*Input: Checkpoints `*.pth`, `scaler_w.pkl`, `scaler_traj.pkl` in folder `checkpoints/`* \\
 *Output: GIF/MP4 animations showing the trajectory and predicted weight distributions.*
 
 ## Method Overview
