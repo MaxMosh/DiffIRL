@@ -37,7 +37,7 @@ ddq_min_lim_rad_par_s2, ddq_max_lim_rad_par_s2 = -100.0, 100.0
 
 # --- ROBOT LOADING ---
 assetsPath = '/home/n7student/Documents/Boulot/CNRS@CREATE/Codes/OC & IRL/Starting/11 - Diffusion model for weights cost learning (expanding window, adding costs features)/assets/'
-urdf = assetsPath + 'mon_robot.urdf'
+urdf = assetsPath + 'my_robot.urdf'
 
 try:
     if not os.path.exists(urdf):

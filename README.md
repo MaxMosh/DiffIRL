@@ -56,8 +56,8 @@ python scripts/generate_OCP_solutions.py
 *Output: `data/dataset_X_samples.pkl`*
 
 <p align="center">
-  <img src="pictures/trajectories_initial_conditions.png" height="20%" />
-  <img src="pictures/trajectories_with_final_condition.png" height="20%" />
+  <img src="pictures/trajectories_initial_conditions.png" height="10%" />
+  <img src="pictures/trajectories_with_final_condition.png" height="10%" />
 </p>
 
 ### 2. Training
