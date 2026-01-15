@@ -57,7 +57,7 @@ python scripts/generate_OCP_solutions.py
 
 <p align="center">
   <img src="pictures/trajectories_initial_conditions.png" height="300" />
-  <img src="pictures/trajectories_with_final_condition.png" height="300" />
+  <img src="pictures/trajectories_with_final_condition.png" height="270" />
 </p>
 
 ### 2. Training
@@ -65,7 +65,8 @@ Train the (conditional) diffusion model to predict weights from trajectories.
 ```bash
 python scripts/train.py
 ```
-*Input: `data/dataset_X_samples.pkl`* \\
+*Input: `data/dataset_X_samples.pkl`*
+
 *Output: Checkpoints `*.pth`, `scaler_w.pkl`, `scaler_traj.pkl` in folder `checkpoints/`*
 
 ### 3. Testing & Visualization
@@ -73,7 +74,8 @@ Test the model on unseen trajectories and visualize the probabilistic weight dis
 ```bash
 python scripts/test.py
 ```
-*Input: Checkpoints `*.pth`, `scaler_w.pkl`, `scaler_traj.pkl` in folder `checkpoints/`* \\
+*Input: Checkpoints `*.pth`, `scaler_w.pkl`, `scaler_traj.pkl` in folder `checkpoints/`*
+
 *Output: GIF/MP4 animations showing the trajectory and predicted weight distributions.*
 
 ## Method Overview
