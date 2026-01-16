@@ -36,7 +36,7 @@ dq_min_lim_rad_par_s, dq_max_lim_rad_par_s = np.deg2rad(dq_min_lim_deg_par_s), n
 ddq_min_lim_rad_par_s2, ddq_max_lim_rad_par_s2 = -100.0, 100.0
 
 # --- ROBOT LOADING ---
-assetsPath = '/home/n7student/Documents/Boulot/CNRS@CREATE/Codes/OC & IRL/Starting/11 - Diffusion model for weights cost learning (expanding window, adding costs features)/assets/'
+assetsPath = './assets/'
 urdf = assetsPath + 'my_robot.urdf'
 
 try:

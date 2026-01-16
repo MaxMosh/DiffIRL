@@ -14,8 +14,8 @@ from tools.OCP_solving_cpin import plot_trajectory_q1, plot_trajectory_q2, plot_
 # --- CONFIGURATION ---
 NUM_SAMPLES = 300
 FREQ = 100.0
-# NUM_CORES = multiprocessing.cpu_count() - 2 
-NUM_CORES = 1
+NUM_CORES = multiprocessing.cpu_count() - 2 
+# NUM_CORES = 1
 
 # Generation constants
 # 3 initial joint angles configurations
