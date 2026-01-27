@@ -118,15 +118,6 @@ Depending on your computer, the generation of these animations could take a whil
     -   **Denoiser**: a conditional diffusion model, also transformer-based, takes the context and iteratively denoises random noise to approximate the posterior distribution of the weights $P(w | \tau)$, with $\tau = (q, \dot{q})$.
 
 
-graph TD
-    A[Observed Trajectory τ] --> B[Transformer Encoder]
-    B --> C[Context Vector]
-    D[Gaussian Noise] --> E[Conditional Denoiser]
-    C --> E
-    E --> F[Predicted Weights w]
-    
-    style F fill:#f9f,stroke:#333,stroke-width:2px
-
 ## Additional notes
 
 1. If you're using WSL for a script that uses `matplotlib`, you might need to avoid showing the figures of matplotlib, by setting the backend to 'Agg' after importing matplotlib:
