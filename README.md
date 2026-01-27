@@ -40,6 +40,9 @@ mamba install -c conda-forge pinocchio pinocchio-python eigenpy numpy matplotlib
 pip install torch
 pip install scikit-learn
 ```
+
+You might also need to install acados library. For this, follow the tutorial at this link [Installation acados](https://docs.acados.org/installation/index.html). If you are on a Linux system, I would recommend cloning the acados repo at the following path: `~/opt`.
+
 <!-- pip install -e <acados_root>/interfaces/acados_template -->
 
 ## Usage Workflow
@@ -66,7 +69,7 @@ Train the (conditional) diffusion model to predict weights from trajectories.
 ```bash
 python scripts/train.py
 ```
-*Input: `data/dataset_X_samples.pkl`*
+*Input: `data/dataset_*.pkl`*
 
 *Output: Checkpoints `*.pth`, `scaler_w.pkl`, `scaler_traj.pkl` in folder `checkpoints/`*
 
@@ -77,15 +80,15 @@ python scripts/train.py
 
 In train script `scripts/train.py`, there are several parameters than can be tuned and adapted, depending mainly on data and the needs.
 
-- BATCH_SIZE: initially set at $512$. If you have enough VRAM, you can increase the batch size to increase train speed.
-- LR: learning rate, initially set at $1e-4$. The lower this parameter is, the longer is the model to train, but a too high value can lead to oscillating around a minimum.
-- EPOCHS: initially set at 600. This amount should be enough, but with more complicated trajectories (especially trajectories generated with solver like acados), it can be increased. Checkpoints are also saved every 50 epochs.
-- TIMESTEPS: number of noise diffusion steps, set to 1000. Normally, this amount should not be changed (it is the most common values in the litterature).
-- W_DIM: dimension of weights matrix, should be set at $n_{features} \times n_{phases}$ (for IPOPT, we used to have $n_{features} = 5$, with acados $n_{features} = 4$).
-- INPUT_CHANNELS: number of input sequences. Should be 4 (we usually have $q_1$, $q_2$, $\dot{q_1}$ and $\dot{q_2}$).
-- D_MODEL: embedding dimension for the trajectories, set to 256.
-- NHEAD: number of attention heads, initially set to 8. Allow the model to focus on several aspects of the trajectory.
-- NUM_LAYERS: depth of the model, initially set to 6.
+- `BATCH_SIZE`: initially set at $512$. If you have enough VRAM, you can increase the batch size to increase train speed.
+- `LR`: learning rate, initially set at $1e-4$. The lower this parameter is, the longer is the model to train, but a too high value can lead to oscillating around a minimum.
+- `EPOCHS`: initially set at 600. This amount should be enough, but with more complicated trajectories (especially trajectories generated with solver like acados), it can be increased. Checkpoints are also saved every 50 epochs.
+- `TIMESTEPS`: number of noise diffusion steps, set to 1000. Normally, this amount should not be changed (it is the most common values in the litterature).
+- `W_DIM`: dimension of weights matrix, should be set at $n_{\text{features}} \times n_{\text{phases}}$ (for IPOPT, we used to have $n_{\text{features}} = 5$, with acados $n_{\text{features}} = 4$).
+- `INPUT_CHANNELS`: number of input sequences. Should be 4 (we usually have $q_1$, $q_2$, $\dot{q_1}$ and $\dot{q_2}$).
+- `D_MODEL`: embedding dimension for the trajectories, set to 256.
+- `NHEAD`: number of attention heads, initially set to 8. Allow the model to focus on several aspects of the trajectory.
+- `NUM_LAYERS`: depth of the model, initially set to 6.
 
 
 ### 3. Testing & Visualization
@@ -104,7 +107,7 @@ Depending on your computer, the generation of these animations could take a whil
 
 ## Method Overview
 
-1.  **OCP Solver**: we assume the demonstrator optimizes a cost function composed of weighted terms (e.g., joint velocity, torque, energy). The weights change over $n_{phases}$ phases of the movement.
+1.  **OCP Solver**: we assume the demonstrator optimizes a cost function composed of weighted terms (e.g., joint velocity, torque, energy). The weights change over $n_{\text{phases}}$ phases of the movement.
 2.  **Diffusion Model**:
     -   **Encoder**: a transformer encodes the observed trajectory $(q, \dot{q})$ into a context vector.
     -   **Denoiser**: a conditional diffusion model, also transformer-based, takes the context and iteratively denoises random noise to approximate the posterior distribution of the weights $P(w | \tau)$, with $\tau = (q, \dot{q})$.
