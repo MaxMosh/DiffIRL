@@ -41,9 +41,14 @@ pip install torch
 pip install scikit-learn
 ```
 
-You might also need to install acados library. For this, follow the tutorial at this link [Installation acados](https://docs.acados.org/installation/index.html). If you are on a Linux system, I would recommend cloning the acados repo at the following path: `~/opt`.
+You might also need to install acados library. For this, follow the [official installation guide](https://docs.acados.org/installation/index.html). If you are on a Linux system, I would recommend cloning the acados repo at the following path: `~/opt`.
 
 <!-- pip install -e <acados_root>/interfaces/acados_template -->
+
+## Available resources
+
+If you want to try the pipeline with already generated data, or use trained models to infer weight distribution for a new trajectory, we can find resources available [here](
+https://sdrive.cnrs.fr/s/SeoLEts5T9GcPN3).
 
 ## Usage Workflow
 
@@ -111,6 +116,14 @@ Depending on your computer, the generation of these animations could take a whil
 2.  **Diffusion Model**:
     -   **Encoder**: a transformer encodes the observed trajectory $(q, \dot{q})$ into a context vector.
     -   **Denoiser**: a conditional diffusion model, also transformer-based, takes the context and iteratively denoises random noise to approximate the posterior distribution of the weights $P(w | \tau)$, with $\tau = (q, \dot{q})$.
+
+
+graph LR
+    T[Trajectory q, dq] --> E[Transformer Encoder]
+    E --> C[Context Vector]
+    Noise[Gaussian Noise] --> D[Diffusion Denoiser]
+    C --> D
+    D --> W[Predicted Weights w]
 
 ## Additional notes
 
