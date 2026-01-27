@@ -10,7 +10,7 @@ import sys
 import random
 import time
 from sklearn.preprocessing import StandardScaler
-import joblib 
+import joblib
 
 # ADDING CURRENT FOLDER TO THE PATH OF PACKAGES
 sys.path.append(os.getcwd())
@@ -49,7 +49,7 @@ class VariableLengthDataset(Dataset):
         with open(data_path, 'rb') as f:
             raw_data = pickle.load(f)
         
-        self.w_matrices = raw_data["w_matrices"] # List of (5, 3) arrays
+        self.w_matrices = raw_data["w_matrices"] # List, used to be of (5, 3) arrays with IPOPT, (4,3) with acados, or (4,1) with acados and constant weights
         self.q_trajs = raw_data["q_trajs"]       # List of (N, 2) arrays
         self.dq_trajs = raw_data["dq_trajs"]     # List of (N, 2) arrays
         

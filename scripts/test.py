@@ -10,7 +10,7 @@ import json
 import joblib 
 
 sys.path.append(os.getcwd())
-from tools.diffusion_model_with_angular_velocities_scaled_costs_variable_new_architecture import ConditionalDiffusionModel
+from tools.diffusion_model import ConditionalDiffusionModel
 # from tools.OCP_solving_cpin_new_scaled_costs_variables import solve_DOC, compute_scaling_factors
 from tools.OCP_solving_cpin import solve_DOC
 
