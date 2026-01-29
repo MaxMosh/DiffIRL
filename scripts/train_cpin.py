@@ -15,7 +15,7 @@ import joblib
 # ADDING CURRENT FOLDER TO THE PATH OF PACKAGES
 sys.path.append(os.getcwd())
 # Assuming you are using the Transformer architecture
-from tools.diffusion_model import ConditionalDiffusionModel
+from tools.diffusion_model_cpin import ConditionalDiffusionModel
 
 # --- HYPERPARAMETERS ---
 BATCH_SIZE = 512
@@ -34,7 +34,7 @@ NUM_LAYERS = 6
 
 CHECKPOINT_DIR = "checkpoints"
 # Look for the dataset generated without OCP scaling factors
-DATASET_PATH = "data/dataset_X_samples.pkl" 
+DATASET_PATH = "data/dataset_cpin.pkl" 
 
 class VariableLengthDataset(Dataset):
     def __init__(self, data_path, scaler_traj=None, scaler_w=None, random_slice=True, min_len=20):
@@ -166,8 +166,8 @@ def prepare_scalers(dataset_path):
     print(f"Traj Scaler: mean={scaler_traj.mean_}, scale={scaler_traj.scale_}")
     
     # Save
-    joblib.dump(scaler_w, os.path.join(CHECKPOINT_DIR, "scaler_w.pkl"))
-    joblib.dump(scaler_traj, os.path.join(CHECKPOINT_DIR, "scaler_traj.pkl"))
+    joblib.dump(scaler_w, os.path.join(CHECKPOINT_DIR, "scaler_w_cpin.pkl"))
+    joblib.dump(scaler_traj, os.path.join(CHECKPOINT_DIR, "scaler_traj_cpin.pkl"))
     
     return scaler_traj, scaler_w
 
@@ -176,8 +176,8 @@ def main():
         os.makedirs(CHECKPOINT_DIR)
 
     # Get Scalers (Load or Compute)
-    scaler_w_path = os.path.join(CHECKPOINT_DIR, "scaler_w.pkl")
-    scaler_traj_path = os.path.join(CHECKPOINT_DIR, "scaler_traj.pkl")
+    scaler_w_path = os.path.join(CHECKPOINT_DIR, "scaler_w_cpin.pkl")
+    scaler_traj_path = os.path.join(CHECKPOINT_DIR, "scaler_traj_cpin.pkl")
     
     if os.path.exists(scaler_w_path) and os.path.exists(scaler_traj_path):
         print("Loading existing scalers...")
@@ -259,9 +259,9 @@ def main():
             print(f"Epoch {epoch+1}/{EPOCHS} | Loss: {avg_loss:.6f} | Time: {epoch_duration:.2f}s")
 
         if (epoch + 1) % 50 == 0:
-            torch.save(model.state_dict(), os.path.join(CHECKPOINT_DIR, f"diff_model_transformer_epoch_{epoch+1}.pth"))
+            torch.save(model.state_dict(), os.path.join(CHECKPOINT_DIR, f"diff_model_cpin_transformer_epoch_{epoch+1}.pth"))
 
-    torch.save(model.state_dict(), os.path.join(CHECKPOINT_DIR, "diff_model_transformer_final.pth"))
+    torch.save(model.state_dict(), os.path.join(CHECKPOINT_DIR, "diff_model_cpin_transformer_final.pth"))
     print("Training Complete.")
 
 if __name__ == "__main__":

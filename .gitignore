@@ -1,0 +1,10 @@
+# Path of the input datasets, the second one is the unchanged path using motif acados trajectories generation
+data/
+scripts/results_weights_sweep/
+
+# Trained models and scalers saved, the second folder was another folder where the trained models and scalers used to be saved
+checkpoints/
+checkpoints_no_scaling/
+
+# Compilation files (C) added by acados
+c_generated_code/
