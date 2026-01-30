@@ -18,7 +18,7 @@ This project implements an Inverse Reinforcement Learning (IRL) approach using a
 - **`pictures/`**: pictures resources for the README.md file.
 
 <!-- TODO: add motif submodule (for generating trajectories with acados) -->
-**Note:** In future versions, planned updates include files for generating trajectories with acados. It should be a submodule of another repository. <!-- TODO: delete/modify the previous sentence whenever it's included on the repo. --> Thus, the files named `*_cpin` are designed to be run for the pipeline with the data generated with `IPOPT` (using `CasADi` and `Pinocchio`), and the files named `*_acados` are designed to be run for the pipeline with the data generated with `acados` and rely on this other repository. The two versions of the diffusion model should be very similar, as are the two versions of the training script, but the two versions of the test script are quite different. 
+**Note:** In future versions, planned updates include files for generating trajectories with acados. It should be a submodule of another repository. <!-- TODO: delete/modify the previous sentence whenever it's included on the repo. --> Thus, the files named `*_cpin` are designed to be run for the pipeline with the data generated with `IPOPT` (using `CasADi` and `Pinocchio`), and the files named `*_acados` are designed to be run for the pipeline with the data generated with `acados` and rely on this other repository. The two versions of the diffusion model should be very similar, as are the two versions of the training script, but the two versions of the test script are quite different (and the test scripts for `acados` are under development, but should be able to run, just need to check if it is doing the correct behaviour). 
 
 ## Dependencies
 
@@ -63,7 +63,7 @@ conda activate DiffIRL
 
 ### 1. Data Generation
 
-### 1.1. With `IPOPT` (`CasADi` and `Pinocchio`)
+#### 1.1. With `IPOPT` (`CasADi` and `Pinocchio`)
 
 Generate a dataset of optimal trajectories by solving OCPs with random weights, from three noisy initial conditions, and to one noisy x-axis target.
 
@@ -77,7 +77,20 @@ python scripts/generate_OCP_solutions_cpin.py
   <img src="pictures/trajectories_with_final_condition.png" height="300" />
 </p>
 
-### 1.2. With `acados`
+Let's say we load the `.pkl` file in a variable `data`. The format of this variable is then structured as follows:
+- `data["w_matrices"]`: this key contains all the weights (each one is an array of size $N_{\text{features}} \times N_{\text{phases}}$) used to generate the trajectories
+- `data["q_trajs"]`: this key contains all the joint angles trajectories
+- `data["dq_trajs"]`: this key contains all the joint velocities trajectories
+- `data["ddq_trajs"]`: this key contains all the joint velocities acccelerations (unused values)
+- `data["params"]`: this key contains some additional parameters
+
+To access the `"params"` of a trajectory of index `ind_traj`, we have thus 3 subkeys:
+- `data["params"][ind_traj]["N"]`: length of the current sequences (`data["q"][ind_traj]`, `data["dq"][ind_traj]` and `data["ddq"][ind_traj]` are size $\texttt{N} \times 2$)
+- `data["params"][ind_traj]["q_init"]`: initial value of $q$ (can also be accessed by looking for the first element of `data["q"][ind_traj]`), initial position from the set of initial position + gaussian noise.
+- `data["params"][ind_traj]["x_fin"]`: value of the end-effector x-axis final position, should be $0.9 \times (L_1 + L_2) + \epsilon$ with $L_1$ lenght of the arm and $L_2$ length of the forearm and $\epsilon$ is a gaussian noise.
+
+
+#### 1.2. With `acados`
 
 <!-- TODO: add the files to generated the trajectories with acados, by importing it from motif repo. -->
 
